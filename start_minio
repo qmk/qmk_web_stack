@@ -1,0 +1,12 @@
+#!/bin/sh
+
+S3_ACCESS_KEY='minio_dev'
+S3_SECRET_KEY='minio_dev_secret'
+MINIO_ACCESS_KEY=$S3_ACCESS_KEY
+MINIO_SECRET_KEY=$S3_SECRET_KEY
+
+export S3_ACCESS_KEY S3_SECRET_KEY MINIO_ACCESS_KEY MINIO_SECRET_KEY
+
+[ -d minio_data ] || mkdir minio_data
+
+minio server --address 127.0.0.1:9000 minio_data
