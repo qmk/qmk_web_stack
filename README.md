@@ -14,7 +14,7 @@ We use Docker Compose to start and run the services required for QMK Configurato
 3. Build the Docker containers  
    `cd qmk_web_stack`  
    `docker-compose build`
-4. Edit the file `qmk_configurator/assets/js/script.js`. Change `backend_baseurl` from `https://api.qmk.fm/` to `http://127.0.0.1:5001`
+4. Edit the file `qmk_configurator/_site/assets/js/script.js`. Change `backend_baseurl` from `https://api.qmk.fm/` to `http://127.0.0.1:5001`
 5. Start the containers  
    `docker-compose up`
 6. Populate the database  
