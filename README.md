@@ -11,6 +11,8 @@ We use Docker Compose to start and run the services required for QMK Configurato
 1. Install [Docker](https://www.docker.com/) or [Docker Desktop](https://www.docker.com/products/docker-desktop)
 2. Clone [qmk_web_stack](https://github.com/qmk/qmk_web_stack):  
    `git clone -r https://github.com/qmk/qmk_web_stack`
+3. Fix the submodule checkouts
+   `./fix-submodules.sh`
 3. Build the Docker containers  
    `cd qmk_web_stack`  
    `docker-compose build`
