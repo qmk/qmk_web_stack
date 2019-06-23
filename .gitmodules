@@ -1,20 +1,20 @@
 [submodule "qmk_compiler"]
 	path = qmk_compiler
 	url = https://github.com/qmk/qmk_compiler.git
-	branch = .
+	branch = master
 [submodule "qmk_api"]
 	path = qmk_api
 	url = https://github.com/qmk/qmk_api.git
-	branch = .
+	branch = master
 [submodule "qmk_configurator"]
 	path = qmk_configurator
 	url = https://github.com/qmk/qmk_configurator.git
-	branch = .
+	branch = master
 [submodule "qmk_api_tasks"]
 	path = qmk_api_tasks
 	url = https://github.com/qmk/qmk_api_tasks.git
-	branch = .
+	branch = master
 [submodule "qmk_bot"]
 	path = qmk_bot
 	url = https://github.com/qmk/qmk_bot.git
-	branch = .
+	branch = master
