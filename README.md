@@ -31,7 +31,7 @@ You are now ready to develop on your local environment. There are some things yo
 
 There are some functional tests for the qmk_compiler code. You can run them with the provided script:
 
-```
+```sh
 cd ~/qmk_web_stack
 ./run_tests.sh
 ```
@@ -51,7 +51,7 @@ The `qmk_api_tasks` service serves two roles- it continually tests keyboards to 
 
 To start `qmk_api_tasks` you will use the `run_qmk_api_tasks.sh` script:
 
-```
+```sh
 cd ~/qmk_web_stack
 ./run_qmk_api_tasks.sh
 ```
@@ -60,7 +60,7 @@ cd ~/qmk_web_stack
 
 If you need to manually clean your S3 storage you can use the `cleanup_storage.sh` script:
 
-```
+```sh
 cd ~/qmk_web_stack
 ./cleanup_storage.sh
 ```
@@ -75,11 +75,11 @@ There are several services you need to setup to run the whole stack locally.
 
 ## S3 Compatible Storage
 
-You will need an S3 compatible storage service backing your install. You can use [S3](https://aws.amazon.com/s3/), [Spaces](https://www.digitalocean.com/docs/spaces/), or a local service such as [Minio](https://www.minio.io/). The development environment scripts assume you're using Minio on your local machine.
+You will need an S3 compatible storage service backing your install. You can use [S3](https://aws.amazon.com/s3/), [Spaces](https://www.digitalocean.com/docs/spaces/), or a local service such as [MinIO](https://min.io/). The development environment scripts assume you're using MinIO on your local machine.
 
 ## Redis
 
-We use [RQ](http://python-rq.org) to decouple compiling the firmware from the webserver. It also handles administrative tasks like cleaning up old firmware hexes. Installing and administering Redis in a production environment is beyond the scope of this document.
+We use [RQ](https://python-rq.org) to decouple compiling the firmware from the webserver. It also handles administrative tasks like cleaning up old firmware hexes. Installing and administering Redis in a production environment is beyond the scope of this document.
 
 For development purposes, you can simply install and run redis with the default configuration.
 
@@ -87,14 +87,14 @@ For development purposes, you can simply install and run redis with the default 
 
 You will need to setup a python development environment where each service can access the `qmk_compiler` code. You can use the `setup_virtualenv` script to do so:
 
-```
+```sh
 cd ~/qmk_web_stack
 ./setup_virtualenv
 ```
 
 This will leave an activate script in the `venv` directory. Make sure to source this script whenever you need to start these services:
 
-```
+```sh
 cd ~/qmk_web_stack
 source venv/activate-<python-version>
 ```
@@ -108,11 +108,11 @@ The frontend uses [jekyll](https://github.com/jekyll/jekyll) so that we can ulti
    `cd ~/qmk_web_stack/qmk_configurator`  
    `bundle install`
    
-## Starting Minio
+## Starting MinIO
 
 You can start a local instance of minio using the provided script. You need to do this each time you work on the stack.
 
-```
+```sh
 cd ~/qmk_web_stack
 ./start_minio
 ```
@@ -121,7 +121,7 @@ cd ~/qmk_web_stack
 
 You can start a local instance of the backend using `start_local_server`:
 
-```
+```sh
 cd ~/qmk_web_stack
 ./start_local_server
 ```
@@ -130,7 +130,7 @@ cd ~/qmk_web_stack
 
 Use jekyll to start the frontend service:
 
-```
+```sh
 cd ~/qmk_web_stack/qmk_configurator
 bundle exec jekyll serve
 ```
