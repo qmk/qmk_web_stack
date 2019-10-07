@@ -59,12 +59,13 @@ services:
     - ./qmk_compiler:/qmk_compiler
 
   qmk_configurator:
-    image: jekyll/jekyll
-    command: jekyll serve --watch --incremental
+    image: node:11.12
+    command: /bin/bash -c "yarn && yarn run serve"
+    working_dir: /srv/configurator
     ports:
-      - "5000:4000"
+      - "5000:8080"
     volumes:
-      - ./qmk_configurator:/srv/jekyll
+      - ./qmk_configurator:/srv/configurator
 
   minio:
     image: minio/minio:RELEASE.2018-12-27T18-33-08Z
