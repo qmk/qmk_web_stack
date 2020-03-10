@@ -9,19 +9,18 @@ We use Docker Compose to start and run the services required for QMK Configurato
 ## Getting Started
 
 1. Install [Docker](https://www.docker.com/) or [Docker Desktop](https://www.docker.com/products/docker-desktop)
-2. Clone [qmk_web_stack](https://github.com/qmk/qmk_web_stack):  
+2. Clone [qmk_web_stack](https://github.com/qmk/qmk_web_stack):
    `git clone -r https://github.com/qmk/qmk_web_stack`
 3. Fix the submodule checkouts
    `./fix-submodules.sh`
-3. Build the Docker containers  
-   `cd qmk_web_stack`  
+3. Build the Docker containers
+   `cd qmk_web_stack`
    `docker-compose build`
-4. Edit the file `qmk_configurator/assets/js/script.js`. Change `backend_baseurl` from `https://api.qmk.fm/` to `http://127.0.0.1:5001`
-5. Start the containers  
+4. Start the containers
    `docker-compose up`
-6. Populate the database  
+5. Populate the database
    `./populate_api.sh`
-7. Visit your local configurator: <http://127.0.0.1:5000/>
+6. Visit your local configurator: <http://127.0.0.1:5000/>
 
 ## Working With Your Environment
 
@@ -36,6 +35,30 @@ cd ~/qmk_web_stack
 ./run_tests.sh
 ```
 
+If you want to run a subset of tests you can pass the fully resolved name to the test. Usually this is `&lt;test_module&gt;.&lttest_function_name&gt;`. For example you could pass in `test_qmk_compiler.test_0010_keyboard_list` to run only that test. You should be aware that `test_qmk_compiler.test_0000_checkout_qmk_skip_cache` and `test_qmk_compiler.test_9999_teardown` are always run because some of the tests depend on them.
+
+Example:
+
+```sh
+cd ~/qmk_web_stack
+./run_tests.sh test_qmk_compiler.test_0010_keyboard_list
+```
+
+### Controlling which git repositories are used
+
+The QMK API will clone and update `qmk_firmware` as needed. By default this means the `master` branch of <https://github.com/qmk/qmk_firmware>. You can set environment variables for `qmk_compiler` and `qmk_api` inside `docker-compose.yml` to change this default. If you want to change the git branch for all repositories at once (qmk_firmware, chibios, chibios-contrib) you can set `GIT_BRANCH`. Otherwise you can change the branch on a repo by repo basis. You must set the git url for all repos individually.
+
+The default environment variables are:
+
+```
+CHIBIOS_GIT_BRANCH: qmk
+CHIBIOS_GIT_URL: https://github.com/qmk/ChibiOS
+CHIBIOS_CONTRIB_GIT_BRANCH: qmk
+CHIBIOS_CONTRIB_GIT_URL: https://github.com/qmk/ChibiOS-Contrib
+QMK_GIT_BRANCH: master
+QMK_GIT_URL: https://github.com/qmk/qmk_firmware.git
+```
+
 ### Populating the API
 
 One of the key features of the API is the parsing of qmk_firmware to build a database about QMK keyboards and keymaps. There are two ways to start this process:
@@ -44,6 +67,15 @@ One of the key features of the API is the parsing of qmk_firmware to build a dat
 2. `trigger_update.sh`: This script triggers an update using the same pathway as `qmk_bot`- it sets a flag in redis which is acted upon by `qmk_api_tasks`.
 
 Normally you will want to use method #1. If you need to test method #2 you will also need to start the `qmk_api_tasks` service, which is not started by default.
+
+### Using and testing the Discord bot
+
+QMK API uses the Discord webhook API to send messages to #configurator_log. If you'd like to use this with your own account you will need to configure a Discord webhook and set that URL here. By default this feature is disabled.
+
+DISCORD_WEBHOOK_URL: &lt;unset&gt;
+DISCORD_WEBHOOK_INFO_URL: &lt;DISCORD_WEBHOOK_URL&gt;
+DISCORD_WEBHOOK_WARNING_URL: &lt;DISCORD_WEBHOOK_URL&gt;
+DISCORD_WEBHOOK_ERROR_URL: &lt;DISCORD_WEBHOOK_URL&gt;
 
 ### qmk_api_tasks
 
@@ -64,77 +96,3 @@ If you need to manually clean your S3 storage you can use the `cleanup_storage.s
 cd ~/qmk_web_stack
 ./cleanup_storage.sh
 ```
-   
-# Running QMK Configurator Locally
-
-If you don't want to or can't use Docker you can setup and run the services locally. The process for doing so is rather involved, it's recommended that you use Docker if at all possible.
-
-## Local Setup
-
-There are several services you need to setup to run the whole stack locally.
-
-## S3 Compatible Storage
-
-You will need an S3 compatible storage service backing your install. You can use [S3](https://aws.amazon.com/s3/), [Spaces](https://www.digitalocean.com/docs/spaces/), or a local service such as [MinIO](https://min.io/). The development environment scripts assume you're using MinIO on your local machine.
-
-## Redis
-
-We use [RQ](https://python-rq.org) to decouple compiling the firmware from the webserver. It also handles administrative tasks like cleaning up old firmware hexes. Installing and administering Redis in a production environment is beyond the scope of this document.
-
-For development purposes, you can simply install and run redis with the default configuration.
-
-## Backend Environment
-
-You will need to setup a python development environment where each service can access the `qmk_compiler` code. You can use the `setup_virtualenv` script to do so:
-
-```sh
-cd ~/qmk_web_stack
-./setup_virtualenv
-```
-
-This will leave an activate script in the `venv` directory. Make sure to source this script whenever you need to start these services:
-
-```sh
-cd ~/qmk_web_stack
-source venv/activate-<python-version>
-```
-
-## Frontend Environment
-
-The frontend uses [jekyll](https://github.com/jekyll/jekyll) so that we can ultimately push our work to gh-pages. Setup is pretty simple.
-
-1. Edit the file `qmk_configurator/assets/js/script.js`. Change `backend_baseurl` from `https://api.qmk.fm/` to `http://127.0.0.1:5001`
-2. Setup the dependencies  
-   `cd ~/qmk_web_stack/qmk_configurator`  
-   `bundle install`
-   
-## Starting MinIO
-
-You can start a local instance of minio using the provided script. You need to do this each time you work on the stack.
-
-```sh
-cd ~/qmk_web_stack
-./start_minio
-```
-
-## Starting Backend Services
-
-You can start a local instance of the backend using `start_local_server`:
-
-```sh
-cd ~/qmk_web_stack
-./start_local_server
-```
-
-## Starting Frontend Service
-
-Use jekyll to start the frontend service:
-
-```sh
-cd ~/qmk_web_stack/qmk_configurator
-bundle exec jekyll serve
-```
-
-The frontend will now be available on port 4000: <http://localhost:4000/>
-
-You will have to reload between changes as `jekyll` in it's default configuration doesn't support live reloading. If someone wants to contribute that please do.
