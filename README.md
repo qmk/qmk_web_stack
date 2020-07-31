@@ -51,12 +51,18 @@ The QMK API will clone and update `qmk_firmware` as needed. By default this mean
 The default environment variables are:
 
 ```
-CHIBIOS_GIT_BRANCH: qmk
-CHIBIOS_GIT_URL: https://github.com/qmk/ChibiOS
-CHIBIOS_CONTRIB_GIT_BRANCH: qmk
-CHIBIOS_CONTRIB_GIT_URL: https://github.com/qmk/ChibiOS-Contrib
 QMK_GIT_BRANCH: master
 QMK_GIT_URL: https://github.com/qmk/qmk_firmware.git
+CHIBIOS_GIT_BRANCH: master
+CHIBIOS_GIT_URL: https://github.com/qmk/ChibiOS
+CHIBIOS_CONTRIB_GIT_BRANCH: master
+CHIBIOS_CONTRIB_GIT_URL: https://github.com/qmk/ChibiOS-Contrib
+PRINTF_GIT_BRANCH: master
+PRINTF_GIT_URL: https://github.com/qmk/printf
+LUFA_GIT_BRANCH: master
+LUFA_GIT_URL: https://github.com/qmk/lufa
+VUSB_GIT_BRANCH: master
+VUSB_GIT_URL: https://github.com/qmk/v-usb
 ```
 
 ### Populating the API
@@ -72,10 +78,12 @@ Normally you will want to use method #1. If you need to test method #2 you will 
 
 QMK API uses the Discord webhook API to send messages to #configurator_log. If you'd like to use this with your own account you will need to configure a Discord webhook and set that URL here. By default this feature is disabled.
 
-DISCORD_WEBHOOK_URL: &lt;unset&gt;
-DISCORD_WEBHOOK_INFO_URL: &lt;DISCORD_WEBHOOK_URL&gt;
-DISCORD_WEBHOOK_WARNING_URL: &lt;DISCORD_WEBHOOK_URL&gt;
-DISCORD_WEBHOOK_ERROR_URL: &lt;DISCORD_WEBHOOK_URL&gt;
+```
+DISCORD_WEBHOOK_URL: <unset>
+DISCORD_WEBHOOK_INFO_URL: <DISCORD_WEBHOOK_URL>
+DISCORD_WEBHOOK_WARNING_URL: <DISCORD_WEBHOOK_URL>
+DISCORD_WEBHOOK_ERROR_URL: <DISCORD_WEBHOOK_URL>
+```
 
 ### qmk_api_tasks
 
