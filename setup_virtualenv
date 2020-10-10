@@ -46,7 +46,7 @@ fi
 if [ -d venv ]; then
     while true; do
         echo "About to remove the existing virtualenv. OK to proceed?"
-        read answer
+        read -r answer
 
         case $answer in
             yes|YES)
