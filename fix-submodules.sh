@@ -4,4 +4,4 @@
 # checked out to a branch.
 
 branch_name=$(git config -f $toplevel/.gitmodules submodule.$name.branch || echo master)
-git submodule foreach -q --recursive 'git checkout $branch_name'
+git submodule foreach -q --recursive "git checkout $branch_name"
