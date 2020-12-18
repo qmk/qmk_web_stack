@@ -18,3 +18,6 @@
 	path = qmk_bot
 	url = https://github.com/qmk/qmk_bot.git
 	branch = .
+[submodule "qmk_metrics_aggregator"]
+	path = qmk_metrics_aggregator
+	url = git@github.com:qmk/qmk_metrics_aggregator.git

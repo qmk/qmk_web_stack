@@ -4,12 +4,13 @@ services:
   qmk_api:
     build: ./qmk_api
     ports:
-    - "5001:5000"
+      - "5001:5000"
     environment:
       PYTHONUNBUFFERED: 1
       API_URL: http://qmk_api:5001/
       #QMK_GIT_URL: https://github.com/qmk/qmk_firmware.git
       #QMK_GIT_BRANCH: master
+      FLASK_GRAPHITE_HOST: qmk_metrics_aggregator
       REDIS_HOST: redis
       RELOAD: 1
       S3_HOST: http://minio:9000
@@ -24,7 +25,7 @@ services:
     build: ./qmk_api_tasks
     command: /bin/true
     ports:
-     - "5002:5000"
+      - "5002:5000"
     environment:
       PYTHONUNBUFFERED: 1
       API_URL: http://qmk_api:5001/
@@ -58,6 +59,7 @@ services:
   qmk_compiler:
     build: ./qmk_compiler
     environment:
+      GRAPHITE_HOST: qmk_metrics_aggregator
       MINIO_ACCESS_KEY: minio_dev
       MINIO_SECRET_KEY: minio_dev_secret
       PYTHONUNBUFFERED: 1
@@ -70,6 +72,16 @@ services:
       S3_HOST: http://minio:9000
     volumes:
     - ./qmk_compiler:/qmk_compiler
+
+  qmk_metrics_aggregator:
+    build: ./qmk_metrics_aggregator
+    environment:
+      PYTHONUNBUFFERED: 1
+      METRIC_TTL: 600
+      GRAPHITE_HOST: graphite
+      GRAPHITE_RESOLUTION: 60
+    volumes:
+    - ./qmk_metrics_aggregator/qmk_metrics_aggregator:/qmk_metrics_aggregator
 
   qmk_configurator:
     build: ./qmk_configurator
@@ -84,9 +96,9 @@ services:
   minio:
     image: minio/minio
     volumes:
-     - minio_data:/data
+      - minio_data:/data
     ports:
-     - "9000:9000"
+      - "9000:9000"
     environment:
       MINIO_ACCESS_KEY: minio_dev
       MINIO_SECRET_KEY: minio_dev_secret
@@ -99,7 +111,13 @@ services:
   redis:
     image: qmkfm/redis
     ports:
-     - "6379:6379"
+      - "6379:6379"
+    restart: always
+
+  graphite:
+    image: qmkfm/qmk_graphite
+    ports:
+      - "5003:80"
     restart: always
 
 volumes:
