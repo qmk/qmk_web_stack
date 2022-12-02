@@ -4,7 +4,7 @@ services:
   qmk_api:
     build: ./qmk_api
     ports:
-      - "5001:5000"
+      - "5001:5001"
     environment:
       PYTHONUNBUFFERED: 1
       API_URL: http://qmk_api:5001/
