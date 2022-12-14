@@ -51,24 +51,29 @@ Example:
 
 ### Controlling Which Git Repositories Are Used
 
-The QMK API will clone and update `qmk_firmware` as needed. By default this means the `master` branch of <https://github.com/qmk/qmk_firmware>. You can set environment variables for `qmk_compiler` and `qmk_api` inside `docker-compose.yml` to change this default. If you want to change the git branch for all repositories at once (`qmk_firmware`, `chibios`, `chibios-contrib`) you can set `GIT_BRANCH`. Otherwise you can change the branch on a repo-by-repo basis. You must set the git URL for all repos individually.
+The QMK API will clone and update `qmk_firmware` as needed. By default this means the `master` branch of <https://github.com/qmk/qmk_firmware>. You can set environment variables for `qmk_compiler` and `qmk_api` inside `docker-compose.yml` to change this default. If you want to change the git branch for all repositories at once (`qmk_firmware`, `chibios`, `chibios-contrib`, `lufa`, `vusb`) you can set `GIT_BRANCH`. Otherwise you can change the branch on a repo-by-repo basis. You must set the git URL for all repos individually.
 
 The default environment variables are:
 
-|Variable                    |Default                                  |
-|----------------------------|-----------------------------------------|
-|`QMK_GIT_BRANCH`            |`master`                                 |
-|`QMK_GIT_URL`               |`https://github.com/qmk/qmk_firmware.git`|
-|`CHIBIOS_GIT_BRANCH`        |`master`                                 |
-|`CHIBIOS_GIT_URL`           |`https://github.com/qmk/ChibiOS`         |
-|`CHIBIOS_CONTRIB_GIT_BRANCH`|`master`                                 |
-|`CHIBIOS_CONTRIB_GIT_URL`   |`https://github.com/qmk/ChibiOS-Contrib` |
-|`PRINTF_GIT_BRANCH`         |`master`                                 |
-|`PRINTF_GIT_URL`            |`https://github.com/qmk/printf`          |
-|`LUFA_GIT_BRANCH`           |`master`                                 |
-|`LUFA_GIT_URL`              |`https://github.com/qmk/lufa`            |
-|`VUSB_GIT_BRANCH`           |`master`                                 |
-|`VUSB_GIT_URL`              |`https://github.com/qmk/v-usb`           |
+| Variable                     | Default                                   |
+|------------------------------|-------------------------------------------|
+| `QMK_FIRMWARE_PATH`          | `qmk_firmware`                            |
+| `QMK_GIT_BRANCH`             | `master`                                  |
+| `QMK_GIT_URL`                | `https://github.com/qmk/qmk_firmware.git` |
+| `CHIBIOS_GIT_BRANCH`         | `master`                                  |
+| `CHIBIOS_GIT_URL`            | `https://github.com/qmk/ChibiOS`          |
+| `CHIBIOS_CONTRIB_GIT_BRANCH` | `master`                                  |
+| `CHIBIOS_CONTRIB_GIT_URL`    | `https://github.com/qmk/ChibiOS-Contrib`  |
+| `MCUX_SDK_GIT_BRANCH`        | `main`                                    |
+| `MCUX_SDK_GIT_URL`           | `https://github.com/qmk/mcux-sdk`         |
+| `PICOSDK_GIT_BRANCH`         | `master`                                  |
+| `PICOSDK_GIT_URL`            | `https://github.com/qmk/pico-sdk`         |
+| `PRINTF_GIT_BRANCH`          | `master`                                  |
+| `PRINTF_GIT_URL`             | `https://github.com/qmk/printf`           |
+| `LUFA_GIT_BRANCH`            | `master`                                  |
+| `LUFA_GIT_URL`               | `https://github.com/qmk/lufa`             |
+| `VUSB_GIT_BRANCH`            | `master`                                  |
+| `VUSB_GIT_URL`               | `https://github.com/qmk/v-usb`            |
 
 ### Populating the API
 
@@ -83,12 +88,12 @@ Normally you will want to use method #1. If you need to test method #2 you will 
 
 QMK API uses Discord's webhook API to send messages to `#configurator_log` in our server. If you'd like to use this with your own server you will need to configure a webhook and set that URL here. By default this feature is disabled.
 
-|Variable                     |Default              |
-|-----------------------------|---------------------|
-|`DISCORD_WEBHOOK_URL`        |*unset*              |
-|`DISCORD_WEBHOOK_INFO_URL`   |`DISCORD_WEBHOOK_URL`|
-|`DISCORD_WEBHOOK_WARNING_URL`|`DISCORD_WEBHOOK_URL`|
-|`DISCORD_WEBHOOK_ERROR_URL`  |`DISCORD_WEBHOOK_URL`|
+| Variable                      | Default               |
+|-------------------------------|-----------------------|
+| `DISCORD_WEBHOOK_URL`         | *unset*               |
+| `DISCORD_WEBHOOK_INFO_URL`    | `DISCORD_WEBHOOK_URL` |
+| `DISCORD_WEBHOOK_WARNING_URL` | `DISCORD_WEBHOOK_URL` |
+| `DISCORD_WEBHOOK_ERROR_URL`   | `DISCORD_WEBHOOK_URL` |
 
 ### API Tasks
 
@@ -99,6 +104,14 @@ To start `qmk_api_tasks`, use the `run_qmk_api_tasks.sh` script:
 ```sh
 ./run_qmk_api_tasks.sh
 ```
+
+### Storage Access
+
+When running a local copy of Configurator, you'll likely be unable to download firmware or source due to internal Docker hostnames.
+
+The MinIO web interface is made available at <http://localhost:9001/>, and for now can be used to manually access the resulting files. You'll need to cross-reference the Configurator's job ID in the build log with the equivalent prefix in the `qmk-api` bucket.
+
+You can log into MinIO with the `minio` container's root user and password as specified in the `docker-compose.yml` file.
 
 ### Storage Cleanup
 
