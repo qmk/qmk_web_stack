@@ -60,10 +60,10 @@ The default environment variables are:
 | `QMK_FIRMWARE_PATH`          | `qmk_firmware`                            |
 | `QMK_GIT_BRANCH`             | `master`                                  |
 | `QMK_GIT_URL`                | `https://github.com/qmk/qmk_firmware.git` |
-| `CHIBIOS_CONTRIB_GIT_BRANCH` | `master`                                  |
-| `CHIBIOS_CONTRIB_GIT_URL`    | `https://github.com/qmk/ChibiOS-Contrib`  |
 | `CHIBIOS_GIT_BRANCH`         | `master`                                  |
 | `CHIBIOS_GIT_URL`            | `https://github.com/qmk/ChibiOS`          |
+| `CHIBIOS_CONTRIB_GIT_BRANCH` | `master`                                  |
+| `CHIBIOS_CONTRIB_GIT_URL`    | `https://github.com/qmk/ChibiOS-Contrib`  |
 | `MCUX_SDK_GIT_BRANCH`        | `main`                                    |
 | `MCUX_SDK_GIT_URL`           | `https://github.com/qmk/mcux-sdk`         |
 | `PICOSDK_GIT_BRANCH`         | `master`                                  |
