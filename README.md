@@ -107,11 +107,11 @@ To start `qmk_api_tasks`, use the `run_qmk_api_tasks.sh` script:
 
 ### Storage Access
 
-When running a local copy of configurator, you'll likely be unable to download firmware or source due to internal docker hostnames.
+When running a local copy of Configurator, you'll likely be unable to download firmware or source due to internal Docker hostnames.
 
-The _minio_ web interface is made available at <http://localhost:9001/>, and for now can be used to manually access the resulting files. You'll need to cross-reference the configurator's job ID in the build log with the equivalent prefix in the `qmk-api` bucket.
+The MinIO web interface is made available at <http://localhost:9001/>, and for now can be used to manually access the resulting files. You'll need to cross-reference the Configurator's job ID in the build log with the equivalent prefix in the `qmk-api` bucket.
 
-You can log into _minio_ with the `minio` container's root user and password as specified in the `docker-compose.yml` file.
+You can log into MinIO with the `minio` container's root user and password as specified in the `docker-compose.yml` file.
 
 ### Storage Cleanup
 
