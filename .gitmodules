@@ -17,3 +17,6 @@
 	path = qmk_metrics_aggregator
 	url = https://github.com/qmk/qmk_metrics_aggregator.git
 	branch = main
+[submodule "qmk_graphite"]
+	path = qmk_graphite
+	url = https://github.com/qmk/qmk_graphite
