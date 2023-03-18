@@ -110,13 +110,13 @@ services:
     restart: always
 
   redis:
-    image: qmkfm/redis
+    image: ghcr.io/qmk/qmk_api_redis
     ports:
       - "6379:6379"
     restart: always
 
   graphite:
-    image: qmkfm/qmk_graphite
+    image: ghcr.io/qmk/qmk_graphite
     ports:
       - "5003:80"
     restart: always
