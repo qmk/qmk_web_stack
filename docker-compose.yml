@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   qmk_api:
     build: ./qmk_api
